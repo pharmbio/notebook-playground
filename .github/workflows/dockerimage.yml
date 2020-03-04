@@ -7,10 +7,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+
     env:
-      tensorflow_version: 2.1.0
-      tag: "tf-${tensorflow_version}"
-      image: "pharmbio-notebook-test" 
+      tensorflow_version: "2.1.0"
+      tag: "tf-2.1.0"
+      image: "pharmbio-notebook-test"
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
