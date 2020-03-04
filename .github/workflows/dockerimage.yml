@@ -1,0 +1,17 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      tensorflow_version: 2.1.0
+      tag: "tf-${tensorflow_version}"
+      image: "pharmbio-notebook-test" 
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build -t pharmbio/$image:$tag . --build-arg BASE_IMAGE=tensorflow/tensorflow:${tensorflow_version}-py3-jupyter
