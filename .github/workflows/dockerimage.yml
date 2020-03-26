@@ -1,18 +1,22 @@
-name: Docker Image CI
+name: CICD docker image
 
-on: [push]
+on: push
 
 jobs:
 
   build:
 
+    name: Build docker image (with cache) and push it to registry
     runs-on: ubuntu-latest
 
-    env:
-      tensorflow_version: "2.1.0"
-      tag: "tf-2.1.0"
-      image: "pharmbio-notebook-test"
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build -t pharmbio/$image:$tag . --build-arg BASE_IMAGE=tensorflow/tensorflow:${tensorflow_version}-py3-jupyter
+
+    - uses: actions/checkout@v1
+
+    - uses: whoan/docker-build-with-cache-action@master
+      with:
+        username: "${{ secrets.DOCKER_USERNAME }}"
+        password: "${{ secrets.DOCKER_PASSWORD }}"
+        image_name: pharmbio/docker-images/pharmbio-notebook
+        image_tag: actions-test
+        registry: docker.pkg.github.com
